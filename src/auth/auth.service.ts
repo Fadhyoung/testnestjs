@@ -18,18 +18,27 @@ export class AuthService {
       throw new UnauthorizedException('Email already registered');
     }
     const user = await this.usersService.create(dto);
-    const token = this.jwtService.sign({ sub: user.id, email: user.email });
+    const token = this.jwtService.sign({
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    });
     return { status: 201, message: 'Registration successful', data: { user, token } };
   }
 
   async login(dto: LoginDto) {
     const user = await this.usersService.findByEmail(dto.email);
     if (!user) throw new UnauthorizedException('Invalid credentials');
-
     const isMatch = await bcrypt.compare(dto.password, user.password);
     if (!isMatch) throw new UnauthorizedException('Invalid credentials');
 
-    const token = this.jwtService.sign({ sub: user.id, email: user.email });
-    return { status: 200, message: 'Login successful', data: { token } };
+    const token = this.jwtService.sign({
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    const role = user.role;
+    return { status: 200, message: 'Login successful', data: { token, role } };
   }
 }
