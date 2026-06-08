@@ -112,6 +112,8 @@ mysql -u root -p       # Akses MySQL langsung
 npm install @nestjs/typeorm typeorm mysql2
 npm install @nestjs/jwt @nestjs/passport passport passport-jwt bcrypt
 npm install -D @types/passport-jwt @types/bcrypt
+npm install class-validator class-transformer
+npm i --save-dev @types/jest
 ```
 
 ---
